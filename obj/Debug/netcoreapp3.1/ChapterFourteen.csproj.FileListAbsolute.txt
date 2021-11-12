@@ -1,0 +1,14 @@
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\bin\Debug\netcoreapp3.1\ChapterFourteen.exe
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\bin\Debug\netcoreapp3.1\ChapterFourteen.deps.json
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\bin\Debug\netcoreapp3.1\ChapterFourteen.runtimeconfig.json
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\bin\Debug\netcoreapp3.1\ChapterFourteen.runtimeconfig.dev.json
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\bin\Debug\netcoreapp3.1\ChapterFourteen.dll
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\bin\Debug\netcoreapp3.1\ChapterFourteen.pdb
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.csproj.AssemblyReference.cache
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.AssemblyInfoInputs.cache
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.AssemblyInfo.cs
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.csproj.CoreCompileInputs.cache
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.dll
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.pdb
+C:\Users\brandon.gunthner\Desktop\ProgProj\ChapterFourteen\obj\Debug\netcoreapp3.1\ChapterFourteen.genruntimeconfig.cache
