@@ -301,9 +301,8 @@ namespace ChapterFourteen
 
         }
 
-        static void Main(string[] args)
+        static void TestPhone()
         {
-            //TestStudentClasses();
             Battery battery = new Battery("sg532532", 70.5, 15);
             Screen screen = new Screen(18.3, "Lots");
             Phone newPhone = new Phone("s500", "Samsung", "Bob", 50m, battery, screen);
@@ -311,6 +310,12 @@ namespace ChapterFourteen
             PhoneHistoryTest callTest = new PhoneHistoryTest(newPhone);
             callTest.Test();
 
+        }
+
+        static void Main(string[] args)
+        {
+            TestStudentClasses();
+            TestPhone();   
         }
     }
 }
