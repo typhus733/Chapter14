@@ -89,26 +89,25 @@ namespace ChapterFourteen
             private string owner;
             private Battery battery;
             private Screen screen;
-            private List<Call> callHistory = new List<Call>();
+            private List<Call> callHistory;
              
 
             public string Model { get => model; set => model = value; }
             public string Manufacturer { get => manufacturer; set => manufacturer = value; }
             public decimal Price { get => price; set => price = value; }
             public string Owner { get => owner; set => owner = value; }
-            private Battery Battery { get => battery; set => battery = value; }
-            private Screen Screen { get => screen; set => screen = value; }
+            public Battery Battery { get => battery; set => battery = value; }
+            public Screen Screen { get => screen; set => screen = value; }
+            public List<Call> CallHistory { get => callHistory; set => callHistory = value; }
 
             public Phone()
             {
 
             }
 
-            public Phone(string model, string manu, string owner)
+            public Phone(string model, string manu, decimal price): this(model, manu, null, price, null, null)
             {
-                this.Model = model;
-                this.Manufacturer = manu;
-                this.Owner = owner;
+              
             }
 
             public Phone(string model, string manu, string owner, decimal price, Battery battery, Screen screen)
@@ -119,56 +118,26 @@ namespace ChapterFourteen
                 this.Price = price;
                 this.Battery = battery;
                 this.Screen = screen;
+                callHistory = new List<Call>();
             }
 
-            public void AddCall()
+            public void AddCall(Call newCall)
             {
-                try
-                {
-                    Console.WriteLine("Enter the call timestamp: ");
-                    DateTime timestamp = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter the call duration in minutes: ");
-                    decimal duration = decimal.Parse(Console.ReadLine());
-                    Call call = new Call(duration, timestamp);
-                    this.callHistory.Add(call);
-                }
-                catch (FormatException f)
-                {
-                    Console.WriteLine("Invalid input entered");
-                }
+                callHistory.Add(newCall);
 
             }
 
-            public void RemoveCall()
+            public void RemoveCall(Call callToRemove)
             {
-                try
-                {
-                    Console.WriteLine("Enter the call timestamp to remove: ");
-                    DateTime timestamp = DateTime.Parse(Console.ReadLine());
-                    
-                    for(int x = this.callHistory.Count-1; x > - 1; x--)
-                    { 
-                        if (this.callHistory[x].Date == timestamp.ToString("d") && this.callHistory[x].StartTime == timestamp.ToString("t"))
-                        {
-                            this.callHistory.RemoveAt(x);
-                            Console.WriteLine("Call removed succesfully");
-                        }
-                    }
-                }
-                catch (FormatException f)
-                {
-                    Console.WriteLine("Invalid input entered");
-                }
-
+                callHistory.Remove(callToRemove);
             }
 
             public void ClearCalls()
             {
                 this.callHistory.Clear();
-                Console.WriteLine("History cleared");
             }
 
-            public void CalculateCalls(decimal price)
+            public decimal CalculateCalls(decimal price)
             {
                 decimal total = 0;
                 foreach (Call call in this.callHistory)
@@ -176,7 +145,7 @@ namespace ChapterFourteen
                     total += (call.Duration * price);
                 }
 
-                Console.WriteLine("The total price for calls is {0:C2}", total);
+                return total;
             }
 
             override public string ToString()
@@ -200,9 +169,9 @@ namespace ChapterFourteen
 
             }
 
-            public Battery (string model)
+            public Battery (string model): this (model, 0, 0)
             {
-                this.Model = model;
+                
             }
 
             public Battery(string model, double hours, int idle)
@@ -230,9 +199,8 @@ namespace ChapterFourteen
             {
 
             }
-            public Screen(double size)
+            public Screen(double size): this(size, null)
             {
-                this.Size = size;
             }
             public Screen(double size, string colors)
             {
@@ -267,33 +235,57 @@ namespace ChapterFourteen
 
         class PhoneHistoryTest
         {
-            private Phone phone;
+            
 
-            public PhoneHistoryTest(Phone phone)
+            public PhoneHistoryTest()
             {
-                this.phone = phone;
+                
             }
 
-            public void Test()
+            public bool AddNewCallTest()
             {
-                phone.AddCall();
-                phone.AddCall();
-                phone.AddCall();
-                phone.CalculateCalls(0.37m);
-                phone.RemoveCall();
-                phone.CalculateCalls(0.37m);
-                phone.ClearCalls();
-                phone.CalculateCalls(0m);
+                Phone testPhone = new Phone("s10", "Samsung", "Bob", 500m, null, null);
+                Call newCall = new Call(15, DateTime.Parse("11/11 10 AM"));
 
+                testPhone.AddCall(newCall);
+
+                Console.WriteLine("Testing Add New Call to Call History");
+                return testPhone.CallHistory.Contains(newCall);
             }
+
+            public bool RemoveCallTest()
+            {
+                Phone testPhone = new Phone("s10", "Samsung", "Bob", 500m, null, null);
+                Call newCall = new Call(15, DateTime.Parse("11/11 10 AM"));
+                testPhone.AddCall(newCall);
+
+                testPhone.RemoveCall(newCall);
+
+                Console.WriteLine("Testing Removing A Call From Call History");
+                return !testPhone.CallHistory.Contains(newCall);
+            }
+
+            public bool CalculateCallCostTest()
+            {
+                decimal expectedResult = 3.70m;
+                Phone testPhone = new Phone("s10", "Samsung", "Bob", 500m, null, null);
+                Call newCall = new Call(10, DateTime.Parse("11/11 10 AM"));
+                testPhone.AddCall(newCall);
+
+                decimal actualResult = testPhone.CalculateCalls(0.37m);
+
+                Console.WriteLine("Testing Call Cost Calculation");
+                return actualResult == expectedResult;
+            }
+
         }
 
-
+        
         static void TestStudentClasses()
         {
 
             Student student1 = new Student("a", "b", "c");
-            Student student2 = new Student("bob", "the maths", "Math", "University of Pheonix", "bob@mail.com", "666-4269");
+            Student student2 = new Student("bob", "the maths", "Math", "University of Phoenix", "bob@mail.com", "666-4269");
 
             StudentTest st = new StudentTest(student1, student2);
 
@@ -303,18 +295,18 @@ namespace ChapterFourteen
 
         static void TestPhone()
         {
-            Battery battery = new Battery("sg532532", 70.5, 15);
-            Screen screen = new Screen(18.3, "Lots");
-            Phone newPhone = new Phone("s500", "Samsung", "Bob", 50m, battery, screen);
+            PhoneHistoryTest callTest = new PhoneHistoryTest();
 
-            PhoneHistoryTest callTest = new PhoneHistoryTest(newPhone);
-            callTest.Test();
+            Console.WriteLine(callTest.AddNewCallTest());
+            Console.WriteLine(callTest.RemoveCallTest());
+            Console.WriteLine(callTest.CalculateCallCostTest());
+            
 
         }
 
         static void Main(string[] args)
         {
-            TestStudentClasses();
+            //TestStudentClasses();
             TestPhone();   
         }
     }
