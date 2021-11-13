@@ -19,11 +19,9 @@ namespace ChapterFourteen
 
             }
 
-            public Student(string name, string email, string phone)
+            public Student(string name, string email, string phone): this(name, null, null, null, email, phone)
             {
-                this.Name = name;
-                this.Email = email;
-                this.Phone = phone;
+
             }
 
             public Student(string name, string course, string subject, string university, string email, string phone)
@@ -44,40 +42,33 @@ namespace ChapterFourteen
             public string Email { get => email; set => email = value; }
             public string Phone { get => phone; set => phone = value; }
 
-            public void PrintStudentInfo()
+            override public string ToString()
             {
-                Console.WriteLine("Student Name: {0}\n" +
-                    "Email: {1}\n" +
-                    "Phone: {2}\n" +
-                    "Course: {3}\n" +
-                    "Subject: {4}\n" +
-                    "University: {5}", Name, Email, Phone, Course, Subject, University);
+                return ("Student Name: " + name +
+                    "\nEmail: " + Email +
+                    "\nPhone: " + Phone +
+                    "\nCourse: " + Course + 
+                    "\nSubject: " + Subject +
+                    "\nUniversity: " + University);
             }
         }
 
         class StudentTest
         {
-            private Student student1;
-            private Student student2;
-
-            private Student Student1 { get => student1; set => student1 = value; }
-            private Student Student2 { get => student2; set => student2 = value; }
-
-            public StudentTest()
+            public bool PrintStudentInfoTest()
             {
+                Student testStudent = new Student("Bob", "The Maths", "Math", "U of B", "Bob@mail.com", "666-4269");
+                string expectedResult = ("Student Name: Bob" +
+                    "\nEmail: Bob@mail.com" +
+                    "\nPhone: 666-4269" +
+                    "\nCourse: The Maths" +
+                    "\nSubject: Math" +
+                    "\nUniversity: U of B");
 
-            }
+                string actualResult = testStudent.ToString();
 
-            public StudentTest( Student s1, Student s2)
-            {
-                Student1 = s1;
-                Student2 = s2;
-            }
-
-            public void Prints()
-            {
-                Student1.PrintStudentInfo();
-                Student2.PrintStudentInfo();
+                Console.WriteLine("Student ToString Test");
+                return expectedResult == actualResult;
             }
         }
 
@@ -283,13 +274,9 @@ namespace ChapterFourteen
         
         static void TestStudentClasses()
         {
+            StudentTest studentTester = new StudentTest();
 
-            Student student1 = new Student("a", "b", "c");
-            Student student2 = new Student("bob", "the maths", "Math", "University of Phoenix", "bob@mail.com", "666-4269");
-
-            StudentTest st = new StudentTest(student1, student2);
-
-            st.Prints();
+            Console.WriteLine(studentTester.PrintStudentInfoTest());
 
         }
 
@@ -306,8 +293,8 @@ namespace ChapterFourteen
 
         static void Main(string[] args)
         {
-            //TestStudentClasses();
-            TestPhone();   
+            TestStudentClasses();
+            //TestPhone();   
         }
     }
 }
