@@ -3,10 +3,84 @@ using System.Collections.Generic;
 
 namespace ChapterFourteen
 {
+
     class Ch14
     {
+        class GenericList<T>
+        {
+            private List<T> elementList;
+            private T[] elementArray;
+
+            public List<T> ElementList { get => elementList; set => elementList = value; }
+            public T[] ElementArray { get => elementArray; set => elementArray = value; }
+
+            public GenericList(int capacity)
+            {
+                elementList = new List<T>();
+                elementArray = new T[capacity];
+            }
+
+            private void UpdateArray()
+            {
+                if (ElementArray.Length < ElementList.Count)
+                {
+                    ElementArray = new T[ElementList.Count];
+                }
+                for(int i = 0; i <= ElementList.Count - 1; i++)
+                {
+                    ElementArray[i] = ElementList[i];
+                }
+            }
+
+            public void AddItem(T item)
+            {
+                elementList.Add(item);
+                UpdateArray();
+            }
+            public T AccessByIndex(int index)
+            {
+                return ElementArray[index];
+            }
+
+            public void RemoveByIndex(int index)
+            {
+                ElementList.RemoveAt(index);
+                UpdateArray();
+            }
+
+            public void InsertAtIndex(int index, T value)
+            {
+                ElementList.Insert(index, value);
+                UpdateArray();
+            }
+
+            public void ClearList()
+            {
+                ElementList.Clear();
+                ElementArray = new T[0];
+            }
+
+            public int SearchByValue(T value)
+            {
+                return ElementList.BinarySearch(value);
+            }
+            public override string ToString()
+            {
+                string returnString = "";
+
+                foreach (T item in ElementList)
+                {
+                    returnString += item + "\n";
+                }
+
+                return returnString;
+            }
+        }
+
+
         class Student
         {
+            static private int studentCounter = 0;
             private string name;
             private string course;
             private string subject;
@@ -32,6 +106,8 @@ namespace ChapterFourteen
                 this.Course = course;
                 this.Subject = subject;
                 this.University = university;
+
+                studentCounter += 1;
             }
 
 
@@ -55,6 +131,25 @@ namespace ChapterFourteen
 
         class StudentTest
         {
+
+            static Student student1;
+            static Student student2;
+
+            public static Student Student1 { get => student1; }
+            public static Student Student2 { get => student2;  }
+
+            public static void CreateStaticStudents()
+            {
+                student1 = new Student("Bob", "The Maths", "Math", "U of B", "Bob@mail.com", "666-4269");
+                student2 = new Student("Tom", "Advanced The Maths", "Math", "U of B", "Tom@mail.com", "666-5555");
+            }
+
+            public static void PrintStaticStudents()
+            {
+                Console.WriteLine(Student1);
+                Console.WriteLine(Student2);
+            }
+
             public bool PrintStudentInfoTest()
             {
                 Student testStudent = new Student("Bob", "The Maths", "Math", "U of B", "Bob@mail.com", "666-4269");
@@ -74,6 +169,8 @@ namespace ChapterFourteen
 
         class Phone
         {
+
+            private static Phone nokiaN95 = new Phone("nokiaN95", "Nokia", 50m);
             private string model;
             private string manufacturer;
             private decimal price;
@@ -90,6 +187,7 @@ namespace ChapterFourteen
             public Battery Battery { get => battery; set => battery = value; }
             public Screen Screen { get => screen; set => screen = value; }
             public List<Call> CallHistory { get => callHistory; set => callHistory = value; }
+            public Phone NokiaN95 { get => nokiaN95; set => nokiaN95 = value; }
 
             public Phone()
             {
@@ -138,7 +236,11 @@ namespace ChapterFourteen
 
                 return total;
             }
-
+            public static void PrintNokia()
+            {
+                Console.WriteLine("Model: " + nokiaN95.Model + "\nManufacturer: " + nokiaN95.Manufacturer + "\nPrice: " + nokiaN95.Price);
+            }
+             
             override public string ToString()
             {
                 return ("Model: " + Model + "\nManufacturer: " + Manufacturer + "\nPrice: " + Price + "\nOwner: " + Owner + "\n" + battery.ToString() + "\n" + Screen.ToString());
@@ -147,6 +249,8 @@ namespace ChapterFourteen
 
         class Battery
         {
+            private enum batteryType { LiIon, NiMH, NiCd };
+            
             private string model;
             private double hours;
             private int idle;
@@ -233,6 +337,8 @@ namespace ChapterFourteen
                 
             }
 
+
+
             public bool AddNewCallTest()
             {
                 Phone testPhone = new Phone("s10", "Samsung", "Bob", 500m, null, null);
@@ -271,12 +377,39 @@ namespace ChapterFourteen
 
         }
 
+        static void TestGenericList()
+        {
+            GenericList<string> testList = new GenericList<string>(5);
+
+            testList.AddItem("a");
+            testList.AddItem("b");
+            testList.AddItem("c");
+            testList.AddItem("d");
+            testList.AddItem("e");
+
+            Console.WriteLine(testList.AccessByIndex(1));
+            Console.WriteLine(testList.SearchByValue("b"));
+            Console.WriteLine(testList);
+
+            testList.AddItem("f");
+
+            Console.WriteLine(testList);
+
+            testList.InsertAtIndex(2, "3");
+            testList.RemoveByIndex(0);
+
+            Console.WriteLine(testList);
+            
+        }
+
         
         static void TestStudentClasses()
         {
             StudentTest studentTester = new StudentTest();
 
-            Console.WriteLine(studentTester.PrintStudentInfoTest());
+            StudentTest.CreateStaticStudents();
+            StudentTest.PrintStaticStudents();
+            //Console.WriteLine(studentTester.PrintStudentInfoTest());
 
         }
 
@@ -284,17 +417,19 @@ namespace ChapterFourteen
         {
             PhoneHistoryTest callTest = new PhoneHistoryTest();
 
-            Console.WriteLine(callTest.AddNewCallTest());
-            Console.WriteLine(callTest.RemoveCallTest());
-            Console.WriteLine(callTest.CalculateCallCostTest());
+            //Console.WriteLine(callTest.AddNewCallTest());
+            //Console.WriteLine(callTest.RemoveCallTest());
+            //Console.WriteLine(callTest.CalculateCallCostTest());
+            //Phone.PrintNokia();
             
 
         }
 
         static void Main(string[] args)
         {
-            TestStudentClasses();
-            //TestPhone();   
+            //TestStudentClasses();
+            //TestPhone();
+            TestGenericList();
         }
     }
 }
